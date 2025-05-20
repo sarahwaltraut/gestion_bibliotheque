@@ -1,5 +1,14 @@
 package factory;
 
-public class Poesie {
+import model.Livre;
+import strategy.StrategieAmende;
 
+public class Poesie extends Livre {
+    public Poesie(String titre, String auteur, String isbn, int anneePublication, int nbPages, String langue, StrategieAmende strategie) {
+        super(titre, auteur, isbn, anneePublication, nbPages, langue, strategie);
+    }
+
+    public Genre getGenre() {
+        return Genre.POESIE;
+    }
 }
