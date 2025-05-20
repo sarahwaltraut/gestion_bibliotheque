@@ -1,5 +1,5 @@
 package strategy;
 
-public class StrategieAmende {
+public interface StrategieAmende {
 
 }
