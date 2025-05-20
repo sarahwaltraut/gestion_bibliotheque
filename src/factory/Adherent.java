@@ -17,7 +17,7 @@ import java.util.Date;
 	    private String email; 
 	    private String telephone;
 	    private Date dateInscription; 
-	    private List<Emprunt> empruntsEnCours;
+	    private List<Emprunt> empruntsEnCours; 
     
     /**
      * Constructeur pour créer un nouvel adhérent
