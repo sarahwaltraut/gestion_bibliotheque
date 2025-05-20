@@ -14,9 +14,9 @@ import java.util.Date;
 	    private String nom;
 	    private String prenom;
 	    private String adresse;
-	    private String email;
+	    private String email; 
 	    private String telephone;
-	    private Date dateInscription;
+	    private Date dateInscription; 
 	    private List<Emprunt> empruntsEnCours;
     
     /**
