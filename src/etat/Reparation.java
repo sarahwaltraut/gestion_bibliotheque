@@ -3,26 +3,32 @@ package etat;
 import model.Livre;
 
 public class Reparation implements EtatLivre {
+
+    @Override
     public void emprunter(Livre livre) {
-        System.out.println("Ce livre est en réparation, impossible de l’emprunter.");
+        System.out.println("Le livre est en réparation. Emprunt impossible.");
     }
 
+    @Override
     public void retourner(Livre livre) {
-        System.out.println("Ce livre est en réparation.");
+        System.out.println("Le livre est en réparation.");
     }
 
+    @Override
     public void reserver(Livre livre) {
-        System.out.println("Ce livre est en réparation, impossible de le réserver.");
+        System.out.println("Le livre est en réparation. Réservation impossible.");
     }
 
+    @Override
     public void reparer(Livre livre) {
         livre.setEtat(new Disponible());
-        System.out.println("Le livre est réparé et maintenant disponible.");
+        System.out.println("La réparation est terminée. Le livre est maintenant disponible.");
     }
 
+    @Override
     public String getEtat() {
-        return "En Réparation";
+        return "En réparation";
     }
-
 }
+
 

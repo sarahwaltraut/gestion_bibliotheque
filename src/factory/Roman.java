@@ -5,7 +5,7 @@ import strategy.StrategieAmende;
 
 public class Roman extends Livre {
     public Roman(String titre, String auteur, String isbn, int anneePublication, int nbPages, String langue, StrategieAmende strategie) {
-        super(titre, auteur, isbn, anneePublication, nbPages, langue, strategie);
+        super(titre, auteur, isbn, anneePublication, nbPages, langue, nbPages, strategie);
     }
 
     public Genre getGenre() {
