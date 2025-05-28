@@ -33,51 +33,14 @@ public class Bibliotheque {
         System.out.print("Langue : ");
         String langue = scanner.nextLine();
         System.out.print("Genre (roman, poesie, fantasy) : ");
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        String genreStr = scanner.nextLine().toUpperCase();
+          
+        String genreStr = scanner.nextLine().trim().toUpperCase();
 
         Genre genre;
         try {
             genre = Genre.valueOf(genreStr);
         } catch (IllegalArgumentException e) {
-            System.out.println("Genre invalide !");
+        	System.out.println("Genre invalide ! Veuillez entrer roman, poesie ou fantasy.");
             return;
         }
 

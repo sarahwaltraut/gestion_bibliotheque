@@ -55,7 +55,55 @@ public abstract class Livre {
         this.etat = etat;
     }
 
-    public EtatLivre getEtat() {
+    public String getIsbn() {
+		return isbn;
+	}
+
+
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+
+
+
+	public int getAnneePublication() {
+		return anneePublication;
+	}
+
+
+
+	public void setAnneePublication(int anneePublication) {
+		this.anneePublication = anneePublication;
+	}
+
+
+
+	public int getNbPages() {
+		return nbPages;
+	}
+
+
+
+	public void setNbPages(int nbPages) {
+		this.nbPages = nbPages;
+	}
+
+
+
+	public String getLangue() {
+		return langue;
+	}
+
+
+
+	public void setLangue(String langue) {
+		this.langue = langue;
+	}
+
+
+
+	public EtatLivre getEtat() {
         return etat;
     }
     
