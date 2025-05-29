@@ -148,4 +148,30 @@ public class Bibliotheque {
             System.out.println(i + " - " + l.getTitre() + " | " + l.getAuteur() + " | " + l.getGenre().name() + " | Disponible: " + l.estDisponible());
         }
     }
+    
+    static void chercherLivre() {
+    	
+    	Scanner scanner = new Scanner(System.in);
+        System.out.print("Entrez l'ISBN du livre à rechercher : ");
+        String isbnRecherche = scanner.nextLine().trim();
+        
+        boolean trouve = false;
+        
+        for (Livre livre : livres) {
+            if (livre.getIsbn().equalsIgnoreCase(isbnRecherche)) {
+                System.out.println("\nLivre trouvé !");
+                System.out.println("Titre: " + livre.getTitre());
+                System.out.println("Auteur: " + livre.getAuteur());
+                System.out.println("État: " + livre.getEtat().getEtat());
+                trouve = true;
+                break;
+            }
+        }
+        
+        if (!trouve) {
+            System.out.println("\nAucun livre trouvé avec l'ISBN : " + isbnRecherche);
+        }
+        // faire une bouche pour affichage continu
+    }
+    
 }
