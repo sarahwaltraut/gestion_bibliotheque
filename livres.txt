@@ -1,0 +1,15 @@
+ROMAN;L'Étranger;Albert Camus;9782070360024;1942;123;Français;3
+FANTASY;Harry Potter à l'école des sorciers;J.K. Rowling;9780747532743;1997;309;Français;5
+POESIE;Les Fleurs du Mal;Charles Baudelaire;9782253002050;1857;250;Français;2
+ROMAN;Le Petit Prince;Antoine de Saint-Exupéry;9780156013987;1943;96;Français;6
+FANTASY;Le Hobbit;J.R.R. Tolkien;9780261103344;1937;310;Anglais;4
+POESIE;Paroles;Jacques Prévert;9782070372577;1946;220;Français;1
+ROMAN;1984;George Orwell;9780451524935;1949;328;Anglais;8
+FANTASY;L’Assassin Royal;Robin Hobb;9782290340032;1995;480;Français;7
+POESIE;Les Contemplations;Victor Hugo;9782070403301;1856;500;Français;2
+ROMAN;Madame Bovary;Gustave Flaubert;9782070413119;1857;432;Français;5
+FANTASY;Eragon;Christopher Paolini;9780552553209;2002;544;Anglais;6
+ROMAN;La Peste;Albert Camus;9782070360422;1947;308;Français;4
+POESIE;Le Spleen de Paris;Charles Baudelaire;9782070324073;1869;176;Français;1
+ROMAN;Les Misérables;Victor Hugo;9782070409181;1862;1232;Français;9
+FANTASY;Le Trône de Fer;George R.R. Martin;9780553573404;1996;694;Anglais;10
