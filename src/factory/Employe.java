@@ -1,6 +1,7 @@
 package factory;
 
 import model.Utilisateur;
+import singleton.BibliothequeManager;
 import model.Livre;
 
 import java.util.List;
@@ -31,12 +32,17 @@ public class Employe extends Utilisateur {
         System.out.println("Livre supprimé : " + livre.getTitre());
     }
 
-    public void afficherStatistiques(List<Livre> livres) {
-        System.out.println("Statistiques - Livres les plus empruntés :");
+    public static void afficherStatsLivres() {
+        var livres = BibliothequeManager.getInstance().getLivres();
+
+        System.out.println("\n📊 Livres les plus empruntés :");
         livres.stream()
-              .sorted((l1, l2) -> l2.getNbEmprunts() - l1.getNbEmprunts())
-              .limit(5)
-              .forEach(livre -> System.out.println(livre.getTitre() + " - " + livre.getNbEmprunts() + " emprunts"));
+            .sorted((l1, l2) -> l2.getNbEmprunts() - l1.getNbEmprunts())
+            .limit(5)
+            .forEach(l -> System.out.println(l.getTitre() + " (" + l.getNbEmprunts() + " emprunts)"));
+
+        
     }
+
 }
 

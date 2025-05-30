@@ -1,12 +1,17 @@
 package bibliotheque;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import factory.LivreFactory;
+import factory.Adherent;
 import factory.Genre;
+import model.Emprunt;
 import model.Livre;
+import observer.SystemeNotification;
+import singleton.BibliothequeManager;
 import strategy.AmendeFantasy;
 import strategy.AmendePoesie;
 import strategy.AmendeRoman;
@@ -15,7 +20,9 @@ import strategy.StrategieAmende;
 public class Bibliotheque {
 	
 	private static Scanner scanner = new Scanner(System.in);
-	private static List<Livre> livres = new ArrayList<>();
+	private static BibliothequeManager manager = BibliothequeManager.getInstance();
+    private static List<Livre> livres = manager.getLivres();
+
 
 	
 	 // ----------- Fonctions Employé -----------
@@ -98,8 +105,8 @@ public class Bibliotheque {
         }
     }
 
-    static void emprunterLivre() {
-        afficherLivresDisponibles();
+    static void emprunterLivre( Adherent adherent) {
+        afficherLivres();
         System.out.print("Index du livre à emprunter : ");
         int index = Integer.parseInt(scanner.nextLine());
         if (index >= 0 && index < livres.size()) {
@@ -107,71 +114,94 @@ public class Bibliotheque {
             if (l.estDisponible()) {
                 l.emprunter();
                 System.out.println("Livre emprunté !");
+                Emprunt emprunt = new Emprunt(l, adherent); // ou adhérent courant
+                BibliothequeManager.getInstance().ajouterEmprunt(emprunt);
+
+                System.out.println("✅ Livre emprunté !");
+                System.out.println("📅 Date limite de retour : " + emprunt.getDateLimiteRetour());
             } else {
-                System.out.println("Ce livre est déjà emprunté.");
+            	System.out.println("❌ Livre indisponible (État : " + l.getEtat() + ")");
+                System.out.print("Souhaitez-vous le réserver ? (oui/non) : ");
+                String rep = scanner.nextLine();
+                if (rep.equalsIgnoreCase("oui")) {
+                    l.reserver();
+                    SystemeNotification.ajouterObserver(adherent);
+                    System.out.println("📌 Livre réservé avec succès !");
+                }
             }
         } else {
             System.out.println("Index invalide.");
         }
     }
 
-    static void retournerLivre() {
-        System.out.println("\n--- Livres empruntés ---");
-        for (int i = 0; i < livres.size(); i++) {
-            Livre l = livres.get(i);
-            if (!l.estDisponible()) {
-                System.out.println(i + " - " + l.getTitre());
-            }
-        }
-        System.out.print("Index du livre à retourner : ");
-        int index = Integer.parseInt(scanner.nextLine());
-        if (index >= 0 && index < livres.size()) {
-            Livre l = livres.get(index);
-            if (!l.estDisponible()) {
-            	l.retourner();
-                System.out.print("Nombre de jours de retard : ");
-                int jours = Integer.parseInt(scanner.nextLine());
-                double amende = l.calculerAmende(jours);
-                System.out.println("Livre retourné avec amende de : " + amende + "€");
-            } else {
-                System.out.println("Ce livre n'était pas emprunté.");
-            }
-        } else {
-            System.out.println("Index invalide.");
-        }
+    static void retournerLivre(Adherent adherent) {
+    	System.out.print("Index du livre à retourner : ");
+    	int index = Integer.parseInt(scanner.nextLine());
+    	Livre livre = livres.get(index);
+
+    	// Récupérer l'emprunt lié à ce livre :
+    	Emprunt emprunt = BibliothequeManager.getInstance().getEmpruntParLivre(livre);
+
+    	if (emprunt != null) {
+    	    emprunt.enregistrerRetour();
+    	    livre.retourner();
+    	    SystemeNotification.notifierTous("Le livre " + livre.getTitre() + " est maintenant disponible.");
+
+    	    long retard = emprunt.getJoursDeRetard();
+    	    if (retard > 0) {
+    	        double amende = emprunt.calculerAmende();
+    	        System.out.println("⏰ Vous avez " + retard + " jours de retard.");
+    	        System.out.println("💸 Amende due : " + amende + " €");
+    	    } else {
+    	        System.out.println("✅ Livre rendu à temps. Merci !");
+    	    }
+
+    	    // supprimer l'emprunt de la liste ?
+    	    BibliothequeManager.getInstance().supprimerEmprunt(emprunt);
+
+    	} else {
+    	    System.out.println("❌ Aucun emprunt associé à ce livre.");
+    	}
+
     }
 
     static void afficherLivres() {
         System.out.println("\n--- Liste des livres ---");
         for (int i = 0; i < livres.size(); i++) {
             Livre l = livres.get(i);
-            System.out.println(i + " - " + l.getTitre() + " | " + l.getAuteur() + " | " + l.getGenre().name() + " | Disponible: " + l.estDisponible());
+            System.out.println(i + " - " + l.getTitre() + " | " + l.getAuteur() + " | " + l.getGenre().name() + " | " + l.getEtat());
         }
     }
     
-    static void chercherLivre() {
-    	
-    	Scanner scanner = new Scanner(System.in);
-        System.out.print("Entrez l'ISBN du livre à rechercher : ");
-        String isbnRecherche = scanner.nextLine().trim();
-        
-        boolean trouve = false;
-        
-        for (Livre livre : livres) {
-            if (livre.getIsbn().equalsIgnoreCase(isbnRecherche)) {
-                System.out.println("\nLivre trouvé !");
-                System.out.println("Titre: " + livre.getTitre());
-                System.out.println("Auteur: " + livre.getAuteur());
-                System.out.println("État: " + livre.getEtat().getEtat());
-                trouve = true;
-                break;
+    public static void afficherLivresEnRetard() {
+        List<Emprunt> emprunts = BibliothequeManager.getInstance().getEmprunts();
+
+        System.out.println("\n📚📅 LIVRES EN RETARD :\n");
+
+        boolean auMoinsUn = false;
+
+        for (Emprunt e : emprunts) {
+            if (e.getDateRetour() == null && e.getDateLimiteRetour().isBefore(LocalDate.now())) {
+                auMoinsUn = true;
+
+                long joursRetard = e.getJoursDeRetard();
+                double amende = e.calculerAmende();
+
+                System.out.println("📖 Livre : " + e.getLivre().getTitre());
+                System.out.println("👤 Emprunté par : " + e.getAdherent().getPrenom() + " " + e.getAdherent().getNom());
+                System.out.println("📅 Emprunté le : " + e.getDateEmprunt());
+                System.out.println("🛑 Date limite : " + e.getDateLimiteRetour());
+                System.out.println("⏳ Jours de retard : " + joursRetard);
+                System.out.println("💸 Amende : " + amende + " €");
+                System.out.println("──────────────────────────────\n");
             }
         }
-        
-        if (!trouve) {
-            System.out.println("\nAucun livre trouvé avec l'ISBN : " + isbnRecherche);
+
+        if (!auMoinsUn) {
+            System.out.println("✅ Aucun livre en retard actuellement !");
         }
-        // faire une bouche pour affichage continu
     }
+
+    
     
 }
