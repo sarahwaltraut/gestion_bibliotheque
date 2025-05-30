@@ -50,7 +50,6 @@ public class ZeMainnn {
             System.out.println("  2. Supprimer un livre");
             System.out.println("  3. Modifier un livre");
             System.out.println("  4. Afficher les livres");
-            System.out.println("  5. Chercher un livres");
             System.out.println("  0. Se déconnecter");
             System.out.println("╚════════════════════════════════════════════╝");
             System.out.print("👉 Choix : ");
@@ -61,7 +60,6 @@ public class ZeMainnn {
                 case 2 -> Bibliotheque.supprimerLivre();
                 case 3 -> Bibliotheque.modifierLivre();
                 case 4 -> Bibliotheque.afficherLivres();
-                case 5 -> Bibliotheque.chercherLivre();
                 case 0 -> System.out.println("\n🔙 Déconnexion... Retour au menu principal.\n");
                 default -> System.out.println("❌ Choix invalide.\n");
             }
@@ -77,8 +75,6 @@ public class ZeMainnn {
             System.out.println("  1. Afficher les livres disponibles");
             System.out.println("  2. Emprunter un livre");
             System.out.println("  3. Retourner un livre");
-            
-            System.out.println("  4. chercher un livre");
             System.out.println("  0. Se déconnecter");
             System.out.println("╚═════════════════════════════════════════════╝");
             System.out.print("👉 Choix : ");
@@ -88,7 +84,6 @@ public class ZeMainnn {
                 case 1 -> Bibliotheque.afficherLivresDisponibles();
                 case 2 -> Bibliotheque.emprunterLivre();
                 case 3 -> Bibliotheque.retournerLivre();
-                case 4 -> Bibliotheque.chercherLivre();
                 case 0 -> System.out.println("\n🔙 Déconnexion... Retour au menu principal.\n");
                 default -> System.out.println("❌ Choix invalide.\n");
             }
