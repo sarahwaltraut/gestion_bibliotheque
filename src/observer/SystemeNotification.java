@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SystemeNotification {
-    private List<Observer> observers = new ArrayList<>();
+    private static List<Observer> observers = new ArrayList<>();
 
-    public void ajouterObserver(Observer observer) {
+    public static void ajouterObserver(Observer observer) {
         observers.add(observer);
     }
 
@@ -14,7 +14,7 @@ public class SystemeNotification {
         observers.remove(observer);
     }
 
-    public void notifierTous(String message) {
+    public static void notifierTous(String message) {
         for (Observer obs : observers) {
             obs.notifier(message);
         }

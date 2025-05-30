@@ -4,11 +4,12 @@ import model.Utilisateur;
 import model.Livre;
 
 import java.util.List;
+import observer.Observer;
 
-public class Adherent extends Utilisateur {
+public class Adherent extends Utilisateur implements Observer {
 
-    public Adherent(String nom, String prenom, String email, String id) {
-        super(nom, prenom, email, id);
+    public Adherent( String id, String nom, String prenom , String email) {
+        super(id, nom, prenom, email);
     }
 
     public void consulterLivres(List<Livre> livres) {
@@ -35,4 +36,10 @@ public class Adherent extends Utilisateur {
             System.out.println("Le livre est disponible, vous pouvez l'emprunter directement.");
         }
     }
+
+	@Override
+	public void notifier(String message) {
+		 System.out.println("Notification pour " + prenom + " " + nom + " : " + message);
+		
+	}
 }
