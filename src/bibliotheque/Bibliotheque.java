@@ -26,7 +26,7 @@ public class Bibliotheque {
 
 	
 	 // ----------- Fonctions Employé -----------
-    static void ajouterLivre() {
+    public static void ajouterLivre() {
         System.out.print("Titre : ");
         String titre = scanner.nextLine();
         System.out.print("Auteur : ");
@@ -67,7 +67,7 @@ public class Bibliotheque {
         System.out.println("Livre ajouté avec succès !");
     }
 
-    static void supprimerLivre() {
+    public static void supprimerLivre() {
         afficherLivres();
         System.out.print("Index du livre à supprimer : ");
         int index = Integer.parseInt(scanner.nextLine());
@@ -79,7 +79,7 @@ public class Bibliotheque {
         }
     }
 
-    static void modifierLivre() {
+    public static void modifierLivre() {
         afficherLivres();
         System.out.print("Index du livre à modifier : ");
         int index = Integer.parseInt(scanner.nextLine());
@@ -95,7 +95,7 @@ public class Bibliotheque {
     }
 
     // ----------- Fonctions Adhérent -----------
-    static void afficherLivresDisponibles() {
+    public static void afficherLivresDisponibles() {
         System.out.println("\n--- Livres disponibles ---");
         for (int i = 0; i < livres.size(); i++) {
             Livre l = livres.get(i);
@@ -105,7 +105,7 @@ public class Bibliotheque {
         }
     }
 
-    static void emprunterLivre( Adherent adherent) {
+    public static void emprunterLivre( Adherent adherent) {
         afficherLivres();
         System.out.print("Index du livre à emprunter : ");
         int index = Integer.parseInt(scanner.nextLine());
@@ -134,7 +134,7 @@ public class Bibliotheque {
         }
     }
 
-    static void retournerLivre(Adherent adherent) {
+    public static void retournerLivre(Adherent adherent) {
     	System.out.print("Index du livre à retourner : ");
     	int index = Integer.parseInt(scanner.nextLine());
     	Livre livre = livres.get(index);
@@ -165,7 +165,7 @@ public class Bibliotheque {
 
     }
 
-    static void afficherLivres() {
+    public static void afficherLivres() {
         System.out.println("\n--- Liste des livres ---");
         for (int i = 0; i < livres.size(); i++) {
             Livre l = livres.get(i);
@@ -201,6 +201,52 @@ public class Bibliotheque {
             System.out.println("✅ Aucun livre en retard actuellement !");
         }
     }
+
+    public static void rechercherLivre() {
+        Scanner scanner = new Scanner(System.in);
+        List<Livre> livres = BibliothequeManager.getInstance().getLivres();
+
+        System.out.print("🔍 Entrez un mot-clé (titre, auteur ou ISBN) : ");
+        String motCle = scanner.nextLine().toLowerCase();
+
+        boolean trouve = false;
+        System.out.println("\n🔎 Résultats de recherche :");
+        for (Livre livre : livres) {
+            if (livre.getTitre().toLowerCase().contains(motCle)
+                    || livre.getAuteur().toLowerCase().contains(motCle)
+                    || livre.getIsbn().toLowerCase().contains(motCle)) {
+                System.out.println("📘 " + livre.getTitre() + " | " + livre.getAuteur() + " | ISBN : " + livre.getIsbn());
+                trouve = true;
+            }
+        }
+
+        if (!trouve) {
+            System.out.println("❌ Aucun livre trouvé.");
+        }
+    }
+    
+    public static void rechercherAdherent() {
+        Scanner scanner = new Scanner(System.in);
+        List<Adherent> adherents = BibliothequeManager.getInstance().getAdherents();
+
+        System.out.print("🔍 Entrez un mot-clé (nom ou email) : ");
+        String motCle = scanner.nextLine().toLowerCase();
+
+        boolean trouve = false;
+        System.out.println("\n🔎 Résultats de recherche :");
+        for (Adherent a : adherents) {
+            if (a.getNom().toLowerCase().contains(motCle)
+                    || a.getEmail().toLowerCase().contains(motCle)) {
+                System.out.println("👤 " + a.getPrenom() + " " + a.getNom() + " | Email : " + a.getEmail());
+                trouve = true;
+            }
+        }
+
+        if (!trouve) {
+            System.out.println("❌ Aucun adhérent trouvé.");
+        }
+    }
+
 
     
     
